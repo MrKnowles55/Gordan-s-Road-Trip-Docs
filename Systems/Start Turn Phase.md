@@ -8,9 +8,6 @@
 - Relics
 - Powers
 - Status Effects
-
-
-
 ## Rules
 - Block resets BEFORE Start of turn effects
 - Energy resets BEFORE effects that modify energy
