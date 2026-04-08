@@ -122,3 +122,4 @@ Full hand:
 - [[Enemy Phase]]
 - [[Draw Phase]]
 - [[Status Effects]]
+- [[Action]]
