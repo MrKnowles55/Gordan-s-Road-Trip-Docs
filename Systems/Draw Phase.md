@@ -12,6 +12,7 @@
 	c. Trigger on-draw effects for that card
 3.  After all draws complete:
 	- Trigger end of draw phase effects
+4. Advance to [[Player Phase]]
 
 ## Rules
 - Deck and discard both empty -> draw ends early

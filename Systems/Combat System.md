@@ -4,8 +4,9 @@
 - [[Start Turn Phase]]
 - [[Draw Phase]]
 - [[Player Phase]]
-- [[Enemy Phase]]
 - [[End Turn Phase]]
+- [[Enemy Phase]]
+- [[End Round Phase]]
 
 ## Action Resolution
 - Queue Based

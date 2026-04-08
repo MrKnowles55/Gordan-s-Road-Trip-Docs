@@ -1,8 +1,9 @@
 ## Order of Operations
-1. Turn counter += 1
+1. Round counter += 1
 2. Reset player energy to base energy (default = 3)
 3. remove all block (unless retain effect exists)
 4. Trigger start of turn effects
+5. Advance to [[Draw Phase]].
 
 ## Start of Turn Effects
 - Relics

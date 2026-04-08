@@ -14,9 +14,7 @@
 	- Thorns, retaliation, etc.
 5. Determine next intent
 	- Based on AI rules / pattern
-6. Trigger end of turn effects
-	- Status decay
-	- Buff/debuff updates
+6. Advance to [[End Round Phase]]
 
 ## Rules
 - enemies intents are determined AFTER acting, used NEXT turn
@@ -42,7 +40,6 @@
 - Start of turn effects -> Before action
 - Action Resolution -> via queue
 - Next intent selection -> after action
-- End of turn effects -> after intent selection
 
 ## Related
 - [[Enemy System]]
