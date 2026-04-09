@@ -52,6 +52,14 @@ Examples:
 - status
 - curse
 
+flags (list or struct) *<b><i>(May become a list of bools?)</i></b>*
+- Explicit behavior modifiers read by systems during execution
+
+Examples:
+- exhaust
+- retain
+- ethereal
+
 owner (reference)
 - Player
 
