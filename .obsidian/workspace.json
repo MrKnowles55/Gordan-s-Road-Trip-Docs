@@ -184,10 +184,11 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "dce0b78e13986db4",
+  "active": "104695eb91e5d3a1",
   "lastOpenFiles": [
-    "Systems/Card.md",
+    "Systems/Action Queue.md",
     "Systems/Targeting.md",
+    "Systems/Card.md",
     "Systems/Hand.md",
     "Systems/Player Phase.md",
     "Systems/End Turn Phase.md",
@@ -196,7 +197,6 @@
     "Systems/Enemy Phase.md",
     "Systems/End Round Phase.md",
     "Systems/Draw Phase.md",
-    "Systems/Action Queue.md",
     "Systems/Action.md",
     "Root.md",
     "Testing",
