@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Systems/Targeting.md",
+                "file": "Deck.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Targeting"
+              "title": "Deck"
             }
           }
         ]
@@ -186,10 +186,11 @@
   },
   "active": "104695eb91e5d3a1",
   "lastOpenFiles": [
-    "Systems/Action Queue.md",
-    "Systems/Targeting.md",
     "Systems/Card.md",
+    "Deck.md",
     "Systems/Hand.md",
+    "Systems/Targeting.md",
+    "Systems/Action Queue.md",
     "Systems/Player Phase.md",
     "Systems/End Turn Phase.md",
     "Systems/Start Turn Phase.md",
