@@ -27,7 +27,7 @@
 - End of draw effects ->after loop completes
 
 ## Related
-- [[Deck System]]
+- [[Deck]]
 - [[Discard Pile]]
 - [[Hand]]
 - [[Status Effects]]
