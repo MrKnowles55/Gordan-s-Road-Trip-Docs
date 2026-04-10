@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Systems/Combat System.md",
+                "file": "Systems/Hand.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Combat System"
+              "title": "Hand"
             }
           }
         ]
@@ -186,11 +186,11 @@
   },
   "active": "104695eb91e5d3a1",
   "lastOpenFiles": [
-    "Systems/Action.md",
     "Systems/Combat System.md",
+    "Systems/Deck.md",
+    "Systems/Action.md",
     "Root.md",
     "Systems/Discard Pile.md",
-    "Systems/Deck.md",
     "Systems/Card.md",
     "Systems/Hand.md",
     "Systems/Targeting.md",
