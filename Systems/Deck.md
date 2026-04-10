@@ -178,6 +178,5 @@ Board changes during resolution:
 - [[Card]]
 - [[Action]]
 - [[Action Queue]]
-- [[Enemy Phase]]
-- [[Player Phase]]
 - [[Discard Pile]]
+- [[Draw Phase]]

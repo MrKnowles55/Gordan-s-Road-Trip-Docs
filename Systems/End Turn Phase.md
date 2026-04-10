@@ -28,4 +28,6 @@
 
 ## Related
 - [[Player Phase]]
+- [[Discard Pile]]
+- [[Action]]
 - [[Action Queue]]

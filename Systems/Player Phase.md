@@ -69,6 +69,8 @@ Concurrent inputs:
 
 ## Related
 - [[Hand]]
+- [[Card]]
 - [[Card Play Pipeline]]
 - [[Player End Turn]]
 - [[Action Queue]]
+- [[Action]]

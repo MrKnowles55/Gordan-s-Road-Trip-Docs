@@ -26,6 +26,7 @@ Examples:
 
 ## Related
 - [[Status Effects]]
+- [[Action]]
 - [[Action Queue]]
 - [[Combat System]]
 - [[Enemy System]]

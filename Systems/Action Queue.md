@@ -118,8 +118,4 @@ Full hand:
 
 # Related
 - [[Combat System]]
-- [[Player Phase]]
-- [[Enemy Phase]]
-- [[Draw Phase]]
-- [[Status Effects]]
 - [[Action]]

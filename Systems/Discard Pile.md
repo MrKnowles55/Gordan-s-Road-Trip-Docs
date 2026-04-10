@@ -67,6 +67,9 @@ Card moved directly to another zone:
 
 ## Related
 - [[Deck]]
+- [[Card]]
+- [[Card Play Pipeline]]
 - [[Hand]]
 - [[Action]]
+- [[Action Queue]]
 - [[End Turn Phase]]

@@ -28,7 +28,8 @@
 
 ## Related
 - [[Deck]]
+- [[Card]]
 - [[Discard Pile]]
 - [[Hand]]
 - [[Status Effects]]
-- [[Combat System]]
+- [[Round Structure]]
