@@ -21,6 +21,5 @@
 - Goes to discard unless exhausted
 
 ## Related
-- [[Card System]]
-- [[Enemy System]]
-- [[Status Effects]]
+- [[Card]]
+- [[Action Queue]]
