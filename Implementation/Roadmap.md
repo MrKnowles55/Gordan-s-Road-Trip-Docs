@@ -246,7 +246,7 @@ Do not collapse all of this into generic “player turn / enemy turn” if the v
 - [x] Add round counter
 - [x] Add explicit phase enum matching the vault
 - [x] Add debug display for current phase
-- [ ] Add phase transition function
+- [x] Add phase transition function
 - [ ] Add battle init function
 - [ ] Add battle end check function
 - [ ] Make the room use the new controller as combat owner
