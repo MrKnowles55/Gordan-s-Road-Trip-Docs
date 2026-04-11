@@ -359,7 +359,7 @@ Prove the core path first.
 - [x] Create action constructor/helper
 - [ ] Validate required fields per action type
 - [ ] Define type rules
-- [ ] Create action debug print/log
+- [x] Create action debug print/log
 - [ ] Ensure action data is deterministic and serializable enough for debugging
 
 ### Done when
