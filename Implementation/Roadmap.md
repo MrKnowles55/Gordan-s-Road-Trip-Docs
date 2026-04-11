@@ -356,7 +356,7 @@ Prove the core path first.
 
 ### Build tasks
 
-- [ ] Create action constructor/helper
+- [x] Create action constructor/helper
 - [ ] Validate required fields per action type
 - [ ] Define type rules
 - [ ] Create action debug print/log
