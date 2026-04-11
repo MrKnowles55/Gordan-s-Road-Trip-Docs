@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Systems/Action.md",
+                "file": "Hand.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Action"
+              "title": "Hand"
             }
           }
         ]
@@ -186,17 +186,17 @@
   },
   "active": "104695eb91e5d3a1",
   "lastOpenFiles": [
+    "Root.md",
     "Hand.md",
-    "Systems/Player Phase.md",
-    "Systems/End Turn Phase.md",
     "Systems/Start Turn Phase.md",
     "Systems/Combat System.md",
+    "Systems/Action Queue.md",
+    "Systems/Action.md",
+    "Systems/Player Phase.md",
+    "Systems/End Turn Phase.md",
     "Systems/Enemy Phase.md",
     "Systems/End Round Phase.md",
     "Systems/Draw Phase.md",
-    "Systems/Action Queue.md",
-    "Systems/Action.md",
-    "Root.md",
     "Testing",
     "Mechanics",
     "Runs",
