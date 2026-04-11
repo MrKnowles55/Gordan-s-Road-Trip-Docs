@@ -195,8 +195,10 @@ An action fizzles if:
 ## Related
 - [[Action Queue]]
 - [[Combat System]]
-- [[Player Phase]]
-- [[Enemy Phase]]
+- [[Card]]
+- [[Enemy System]]
+- [[Relics]]
 - [[Status Effects]]
+
 
 

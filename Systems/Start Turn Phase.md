@@ -19,6 +19,6 @@
  - Energy Modifiers -> Applied after reset
 
 ## Related
-- [[Combat System]]
-- [[Status Effects]]
-- [[Relics]]
+- [[Round Structure]]
+- [[Energy System]]
+- 

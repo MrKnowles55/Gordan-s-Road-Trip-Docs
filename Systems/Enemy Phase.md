@@ -44,6 +44,7 @@
 ## Related
 - [[Enemy System]]
 - [[Action Queue]]
+- [[Action]]
 - [[Status Effects]]
-- [[Combat System]]
+- [[Round Structure]]
 
