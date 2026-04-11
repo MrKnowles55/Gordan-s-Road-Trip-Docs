@@ -240,12 +240,12 @@ Do not collapse all of this into generic “player turn / enemy turn” if the v
 
 ### Build tasks
 
-- [ ] Create `obj_battle_controller`
-- [ ] Give it combat actor references
-- [ ] Add battle-active flag
-- [ ] Add round counter
-- [ ] Add explicit phase enum matching the vault
-- [ ] Add debug display for current phase
+- [x] Create `obj_battle_controller`
+- [x] Give it combat actor references
+- [x] Add battle-active flag
+- [x] Add round counter
+- [x] Add explicit phase enum matching the vault
+- [x] Add debug display for current phase
 - [ ] Add phase transition function
 - [ ] Add battle init function
 - [ ] Add battle end check function
