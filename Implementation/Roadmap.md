@@ -247,16 +247,16 @@ Do not collapse all of this into generic “player turn / enemy turn” if the v
 - [x] Add explicit phase enum matching the vault
 - [x] Add debug display for current phase
 - [x] Add phase transition function
-- [ ] Add battle init function
+- [x] Add battle init function
 - [ ] Add battle end check function
 - [ ] Make the room use the new controller as combat owner
 
 ### Done when
 
-- [ ] one object owns combat flow
-- [ ] current phase is always known
-- [ ] battle starts from explicit init
-- [ ] phase progression is centralized
+- [x] one object owns combat flow
+- [x] current phase is always known
+- [x] battle starts from explicit init
+- [x] phase progression is centralized
 - [ ] victory / defeat states exist even if still simple
 
 ### Important rule
