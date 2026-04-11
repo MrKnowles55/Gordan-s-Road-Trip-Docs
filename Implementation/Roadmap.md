@@ -1,638 +1,793 @@
+## COMBAT REWRITE IMPLEMENTATION NOTES
 
-## COMBAT REWRITE OVERVIEW
+### Purpose
 
-This rewrite is not a full project restart.
+This note is not a design note.
+The design already exists in the system notes.
 
-The goal is to rebuild the combat runtime cleanly inside the same project while keeping the current project as a reference source for visuals, naming, rough flow, and any useful placeholder behavior.
+This note is the implementation route for rebuilding combat in the project so the runtime actually matches the note structure already defined in:
+- [[Combat System]]
+- [[Round Structure]]
+- [[Action Queue]]
+- [[Action]]
+- [[Card Play Pipeline]]
+- [[Card]]
+- [[Hand]]
+- [[Targeting]]
+- [[Energy System]]
 
-The current build already proved a few important things:
-- a combat scene can exist
-- a player and enemy can appear
-- turns can advance
-- basic combat interactions feel testable
-
-That means the prototype did its job.
-
-What it did **not** do is establish correct architecture.
-
-Right now, the project still behaves like a prototype:
-- UI triggers gameplay state changes directly
-- gameplay effects resolve immediately instead of through a formal system
-- enemy behavior is likely using its own direct path
-- turn flow exists, but is not yet the central owner of all battle resolution
-- the project is interaction-first instead of resolution-first
-
-That is the reason for the rewrite.
-
-The rewrite should follow this principle:
-
-**Do not keep extending the prototype path.**
-**Build a clean combat path beside it, then replace the old path once the new one is working.**
-
-That means:
-- keep the project
-- keep useful assets and visuals
-- keep the repo
-- keep old code as reference temporarily
-- create a new battle implementation lane
-- move system by system in dependency order
-- delete the old path only after the new path is stable
+The rewrite should follow the existing note architecture unless a note is explicitly wrong and updated first.
 
 ---
 
-## BIG PICTURE BUILD ORDER
+## What Already Exists Conceptually
 
-The rewrite should move in this order:
+The vault already defines a fairly clear runtime model.
 
-1. Build a clean battle shell
-2. Build a formal action pipeline
-3. Route current simple combat through the action pipeline
-4. Replace prototype buttons with proper card play flow
-5. Make enemies use the same action path
-6. Add persistent combat rules like statuses and modifiers
-7. Finish victory, defeat, cleanup, and encounter exit
-8. Expand into run systems only after combat is stable
+The intended combat flow is:
 
-This order matters because each stage depends on the stage before it.
+[[Start Turn Phase]]
+→ [[Draw Phase]]
+→ [[Player Phase]]
+→ [[End Turn Phase]]
+→ [[Enemy Phase]]
+→ [[End Round Phase]]
 
-Examples:
-- cards should not be built before action resolution exists
-- enemy logic should not stay on a separate direct-damage path
-- statuses should not be added until there is a trustworthy resolution pipeline
-- run-level progression should not be built on unstable combat
+The intended gameplay rule is also already clear:
 
----
+- gameplay state changes do not happen directly
+- gameplay state changes become [[Action]]s
+- [[Action]]s resolve through [[Action Queue]]
+- cards do not directly modify state
+- player phase does not resolve gameplay directly
+- enemy phase does not resolve gameplay directly
+- targeting resolves before action creation
+- action resolution may revalidate and fizzle
 
-## WHAT TO KEEP VS WHAT TO REBUILD
-
-### Keep
-- the current project
-- sprites and visual assets
-- room setup if still useful
-- debug visuals that still help
-- naming conventions that still make sense
-- old prototype code as temporary reference
-
-### Rebuild
-- combat controller ownership
-- turn flow ownership
-- action resolution path
-- player action request flow
-- enemy action execution flow
-- card play flow
-- victory / defeat / cleanup flow
-
-### Do Not Do
-- do not keep patching the current direct button logic forever
-- do not try to evolve prototype shortcuts into final architecture
-- do not add lots of content before the runtime backbone is clean
-- do not add statuses, relics, or advanced systems before the action pipeline is trustworthy
+That means the rewrite is not about inventing architecture.
+It is about making the project actually obey the architecture already written down.
 
 ---
 
-## ARCHITECTURAL TARGET
+## Main Rewrite Goal
 
-By the end of the rewrite, combat should work like this:
+Replace the current prototype path:
 
-input or AI intent  
-→ request  
-→ validation  
-→ action generation  
-→ enqueue  
-→ ordered resolution  
-→ post-resolution checks  
-→ turn progression  
-→ victory/defeat checks
+input
+→ direct mutation
+→ visible result
 
-Not like this:
+with the intended path:
 
-button click  
-→ immediately change HP/block/energy
-
-That is the core architectural shift.
-
-The rewrite is really about moving from:
-
-**direct mutation**
-to
-**formal resolution**
+input / intent
+→ validation
+→ target resolution
+→ action creation
+→ enqueue
+→ ordered resolution
+→ follow-up checks
+→ next phase
 
 ---
 
-## NEW COMBAT LANE
+## What Must Be True When The Rewrite Is Done
 
-Build the new system beside the old one.
+### Runtime ownership
 
-Suggested new core pieces:
+There must be one battle owner.
+That owner controls:
+- combat lifecycle
+- phase progression
+- queue lifecycle
+- battle end checks
+- turn ownership
+- whether input is currently allowed
+
+### Player interaction
+
+Player input must only do three things:
+- request card play
+- request target selection
+- request end turn
+
+Player input must not:
+- directly pay energy
+- directly deal damage
+- directly gain block
+- directly discard cards
+- directly end combat
+
+### Enemy interaction
+
+Enemy logic must only do two things:
+- determine intent
+- convert intent into action generation on enemy phase
+
+Enemy logic must not:
+- directly damage player
+- directly advance battle state
+- directly decide battle cleanup
+
+### Card behavior
+
+Cards must only define:
+- cost
+- targeting
+- effect data
+- tags / flags / metadata
+
+Cards must not:
+- directly change HP
+- directly change block
+- directly draw
+- directly apply status
+
+Cards generate actions.
+They do not resolve gameplay.
+
+### Action behavior
+
+Actions must be:
+- created
+- enqueued
+- resolved in order
+- validated at resolution time
+- allowed to fizzle safely
+- allowed to generate more actions
+
+Actions must be the only normal path for gameplay state change.
+
+---
+
+## Rewrite Strategy
+
+Do not patch the prototype into compliance one piece at a time inside the same old path.
+
+Instead:
+- create a new combat runtime lane
+- keep old prototype code temporarily as reference
+- rebuild the runtime to match the vault notes
+- delete old direct-mutation behavior only after the new route works
+
+This should be done inside the same project, not by making a totally separate project.
+
+---
+
+## New Runtime Lane
+
+Suggested ownership pieces:
+
 - `obj_battle_controller`
 - `scr_battle_init`
 - `scr_battle_update`
-- `scr_battle_request_*`
-- `scr_action_create_*`
-- `scr_action_queue_*`
-- `scr_action_resolve_*`
-- `scr_actor_*`
-- `scr_card_*`
-- `scr_status_*` later
+- `scr_battle_begin_phase`
+- `scr_battle_advance_phase`
+- `scr_battle_check_end`
+- `scr_action_create`
+- `scr_action_validate`
+- `scr_action_resolve`
+- `scr_queue_enqueue`
+- `scr_queue_process_next`
+- `scr_queue_process_all`
+- `scr_card_play_attempt`
+- `scr_targeting_resolve`
+- `scr_energy_can_pay`
+- `scr_energy_pay`
 
-The point is not the exact names.
-The point is that the new lane has clear ownership and clear boundaries.
-
----
-
-## PHASE 1 — BATTLE SHELL
-
-### Objective
-Create a clean battle owner that can run a fight without relying on prototype shortcuts.
-
-### What This Phase Must Establish
-- one object owns battle state
-- one object advances battle flow
-- player turn and enemy turn are explicit
-- battle start and battle end are explicit
-- victory and defeat states exist, even if still simple
-- no UI object is responsible for combat state ownership
-
-### Core Questions This Phase Answers
-- who owns the battle?
-- where does turn progression live?
-- where do battle-wide checks happen?
-- where is combat initialized?
-- where is combat cleaned up?
-
-### Build Tasks
-- [x] Create `obj_battle_controller`
-- [ ] Give it explicit battle states:
-  - [ ] START
-  - [ ] PLAYER_TURN
-  - [ ] ENEMY_TURN
-  - [ ] VICTORY
-  - [ ] DEFEAT
-  - [ ] CLEANUP if needed
-- [ ] Create explicit turn/phase variables
-- [ ] Create battle init script
-- [ ] Spawn or bind player + enemy combat actors
-- [ ] Give battle controller ownership of:
-  - [ ] current turn owner
-  - [ ] battle state
-  - [ ] turn transitions
-  - [ ] victory/defeat checks
-- [ ] Make the fight enter a stable loop:
-  - [ ] start battle
-  - [ ] player turn
-  - [ ] enemy turn
-  - [ ] repeat
-- [ ] Remove any requirement that UI objects manage battle flow
-
-### Done When
-- [ ] battle starts predictably
-- [ ] battle state is readable and centralized
-- [ ] turns alternate in one place
-- [ ] controller can detect battle over conditions
-- [ ] current combat no longer depends on prototype flow hacks
-
-### Notes
-Do not worry about cards yet.
-Do not worry about statuses yet.
-Do not worry about nice effects yet.
-
-This phase exists to establish clean ownership.
+The exact names can change.
+The important part is separating ownership by responsibility.
 
 ---
 
-## PHASE 2 — ACTION PIPELINE
+## Implementation Order
 
-### Objective
-Create the formal path through which all gameplay state changes must pass.
+The rewrite should be built in dependency order, not feature order.
 
-This is the most important phase in the rewrite.
+Correct order:
 
-### What This Phase Must Establish
-- all real gameplay effects are actions
-- actions are created before they resolve
-- actions resolve in order
-- no combat state changes happen outside that path
+1. Battle shell
+2. Phase progression
+3. Action struct + queue
+4. Damage / block actions
+5. Current simple combat routed through queue
+6. Card play pipeline
+7. Hand / draw / discard integration
+8. Enemy phase action generation
+9. Battle-end flow
+10. Statuses / modifiers / reactions
+11. Content expansion
 
-### Why This Comes Before Cards
-Cards are not the fundamental unit.
-Ordered gameplay resolution is the fundamental unit.
-
-Without this phase, cards will just become prettier buttons that still do direct mutation.
-
-### Core Questions This Phase Answers
-- what is an action?
-- who owns the queue?
-- how are actions ordered?
-- how is action data validated?
-- where do damage/block/status/draw effects resolve?
-- when do death checks happen?
-
-### Build Tasks
-- [ ] Define action struct format
-
-Example fields to decide:
-- [ ] `type`
-- [ ] `source`
-- [ ] `target`
-- [ ] `value`
-- [ ] `payload` if needed
-- [ ] `flags` if needed
-- [ ] `id` if useful for debugging
-
-- [ ] Decide queue structure:
-  - [ ] array
-  - [ ] ds_queue
-- [ ] Put queue ownership on battle controller
-- [ ] Create:
-  - [ ] enqueue function
-  - [ ] dequeue function
-  - [ ] peek function if useful
-  - [ ] process function
-  - [ ] clear/reset function
-- [ ] Decide whether resolution is:
-  - [ ] instant for now
-  - [ ] or step-based to allow future animation-aware processing
-- [ ] Implement first action type:
-  - [ ] DAMAGE
-- [ ] Implement second action type:
-  - [ ] GAIN_BLOCK
-- [ ] Add post-resolution checks:
-  - [ ] HP <= 0
-  - [ ] death state
-  - [ ] battle over check
-- [ ] Add debug logging:
-  - [ ] enqueue log
-  - [ ] resolve log
-  - [ ] final state log if useful
-
-### Rules To Lock In
-- [ ] no direct HP changes outside action resolution
-- [ ] no direct block changes outside action resolution
-- [ ] queue resolves one action at a time
-- [ ] all state changes should be attributable to a resolved action
-
-### Done When
-- [ ] actions can be created cleanly
-- [ ] actions resolve in order
-- [ ] damage goes through queue
-- [ ] block gain goes through queue
-- [ ] death is handled through formal resolution flow
-- [ ] you can look at a combat result and explain which action caused it
-
-### Notes
-This phase is the backbone.
-Do not rush past it.
+If this order is violated, the project will keep reintroducing prototype shortcuts.
 
 ---
 
-## PHASE 3 — REMOVE DIRECT MUTATION FROM PROTOTYPE INPUT
+## PHASE 1 — BUILD THE BATTLE SHELL
 
 ### Objective
-Use the action system to replace the current shortcut behavior.
 
-### What This Phase Must Establish
-Current simple actions still exist, but they no longer directly mutate state.
+Create the new battle owner that matches the existing notes.
 
-Instead, prototype controls should become request sources only.
+This is not yet the full combat system.
+This is the runtime container that all later systems plug into.
 
-### Desired Flow
-Old:
-attack button  
-→ spend energy  
-→ directly damage enemy
+### Required controller state
 
-New:
-attack button  
-→ request basic attack  
-→ validate request  
-→ create action  
-→ enqueue  
-→ resolve
+The battle controller should know:
 
-### Core Questions This Phase Answers
-- who is allowed to request gameplay?
-- who validates whether that request is legal?
-- who turns a request into an action?
-- how does energy spending fit into the formal path?
+- current phase
+- phase index or enum
+- player reference
+- enemy list/reference
+- current round number
+- whether battle is active
+- whether input is locked
+- whether queue is resolving
+- pending victory
+- pending defeat
 
-### Build Tasks
-- [ ] Replace direct button behavior with battle request functions
-- [ ] Create request functions such as:
-  - [ ] `battle_request_basic_attack()`
-  - [ ] `battle_request_basic_block()`
-  - [ ] `battle_request_end_turn()`
-- [ ] Move validation into battle logic:
-  - [ ] enough energy?
-  - [ ] correct turn owner?
-  - [ ] battle not locked/busy?
-  - [ ] valid target exists?
-- [ ] Make validated requests create formal actions
-- [ ] Route energy spending through the proper path
-- [ ] Ensure old UI objects do not directly touch HP/block
-- [ ] Treat buttons as temporary debug input, not final architecture
+At minimum, phase should reflect the note structure:
 
-### Done When
-- [ ] prototype buttons still work functionally
-- [ ] but they now only request actions
-- [ ] HP/block/energy no longer change directly from UI code
-- [ ] battle controller and action system own the resolution path
+- START_TURN
+- DRAW
+- PLAYER
+- END_TURN
+- ENEMY
+- END_ROUND
+- VICTORY
+- DEFEAT
 
-### Notes
-This is the bridge phase between prototype and real game architecture.
+Do not collapse all of this into generic “player turn / enemy turn” if the vault already defines the more specific structure.
+
+### Build tasks
+
+- [ ] Create `obj_battle_controller`
+- [ ] Give it combat actor references
+- [ ] Add battle-active flag
+- [ ] Add round counter
+- [ ] Add explicit phase enum matching the vault
+- [ ] Add debug display for current phase
+- [ ] Add phase transition function
+- [ ] Add battle init function
+- [ ] Add battle end check function
+- [ ] Make the room use the new controller as combat owner
+
+### Done when
+
+- [ ] one object owns combat flow
+- [ ] current phase is always known
+- [ ] battle starts from explicit init
+- [ ] phase progression is centralized
+- [ ] victory / defeat states exist even if still simple
+
+### Important rule
+
+Do not let UI objects decide which phase comes next.
+Do not let enemy instances advance combat on their own.
 
 ---
 
-## PHASE 4 — CARD PLAY LOOP
+## PHASE 2 — IMPLEMENT THE ROUND STRUCTURE EXACTLY
 
-### Objective
-Replace prototype controls with actual card-driven gameplay flow.
+The vault already defines the round flow.
+The project should follow it directly.
 
-### What This Phase Must Establish
-Cards become runtime entities with a real play pipeline.
+### Intended flow
 
-A card is not just “an effect.”
-A card must pass through:
-- availability
-- hand presence
-- cost validation
-- target selection if needed
-- effect generation
-- action creation
-- discard/exhaust movement
+#### Start Turn Phase
+- increment round counter
+- reset player energy to base
+- remove block unless retained
+- trigger start-of-turn effects
+- advance to draw
 
-### Core Questions This Phase Answers
-- what is a card definition?
-- what is a card instance?
-- where is hand state stored?
-- what happens when a card is clicked?
-- when is a card considered legally playable?
-- when does a card leave the hand?
+#### Draw Phase
+- draw cards into hand
+- obey hand-size rules
+- resolve draw through queue if following the note literally
+- advance to player phase
 
-### Build Tasks
-- [ ] Define card definition format
-- [ ] Define card instance format if separate
-- [ ] Create draw pile
-- [ ] Create hand container
-- [ ] Create discard pile
-- [ ] Implement draw logic
-- [ ] Implement hand population
-- [ ] Implement card UI display from hand state
-- [ ] Implement play request path
-- [ ] Validate:
-  - [ ] enough energy
-  - [ ] card can currently be played
-  - [ ] target requirement satisfied
-- [ ] Convert card effect into actions
+#### Player Phase
+- wait for input
+- allow card play attempts
+- allow end turn request
+- do not resolve gameplay directly here
+
+#### End Turn Phase
+- process hand cleanup
+- retain / ethereal / discard handling
+- remove temporary this-turn effects
+- advance to enemy phase
+
+#### Enemy Phase
+- resolve enemies left to right
+- trigger enemy start-of-turn effects
+- execute current intent through action generation
+- determine next intent
+- advance to end round
+
+#### End Round Phase
+- resolve round cleanup
+- advance to next start turn
+
+### Build tasks
+
+- [ ] Create explicit phase handlers for each note-defined phase
+- [ ] Do not skip Draw / End Turn / End Round as “implied”
+- [ ] Make each phase do only its own responsibilities
+- [ ] Keep transition logic in controller, not scattered in actors
+
+### Done when
+
+- [ ] phase order matches the vault
+- [ ] each phase has one clear purpose
+- [ ] the controller can step through a whole round without prototype shortcuts
+
+---
+
+## PHASE 3 — BUILD ACTION AS THE RUNTIME UNIT
+
+The vault already defines [[Action]] as the standard unit of gameplay change.
+This must become literal runtime behavior.
+
+### Required action fields
+
+Based on the note, action data should support:
+
+- `type`
+- `source`
+- `target`
+- `value`
+- `payload`
+- `flags`
+
+Do not store derived modifiers on the action if following the current note strictly.
+The note says modifiers should be queried from current state during resolution.
+
+### Supported first action types
+
+Implement these first:
+- damage
+- block
+- draw
+- energy
+
+Do not start with exotic types.
+Prove the core path first.
+
+### Build tasks
+
+- [ ] Create action constructor/helper
+- [ ] Validate required fields per action type
+- [ ] Define type rules
+- [ ] Create action debug print/log
+- [ ] Ensure action data is deterministic and serializable enough for debugging
+
+### Done when
+
+- [ ] actions can be created from player and enemy systems
+- [ ] action data is consistent
+- [ ] invalid action definitions are rejected safely
+
+---
+
+## PHASE 4 — BUILD THE ACTION QUEUE TO MATCH THE NOTES
+
+The queue note is one of the most important notes in the vault.
+The implementation should match it closely.
+
+### Rules already defined in notes
+
+From the vault:
+- one action resolves at a time
+- actions fully resolve before the next
+- no parallel resolution
+- actions may generate more actions
+- actions can fizzle
+- multi-hit means multiple damage actions
+- draw X means multiple draw actions
+
+One important note conflict exists:
+`Action Queue.md` says reactions enqueue after current action completes and describes appending behavior.
+`Action.md` says reactions are inserted before older pending actions.
+
+This must be resolved before coding reaction ordering.
+For the first rewrite pass, reactions should probably be postponed or forced into one clear rule.
+
+### Initial implementation rule
+
+For first-pass rewrite:
+- reactions do not interrupt current action
+- reactions are added in a single deterministic way
+- do not build complicated interrupt logic yet
+
+### Build tasks
+
+- [ ] Create queue storage
+- [ ] Add enqueue
+- [ ] Add dequeue
+- [ ] Add `process_next`
+- [ ] Add `process_all`
+- [ ] Add safe clear/reset
+- [ ] Add queue-owned resolving flag
+- [ ] Add fizzle-safe behavior
+- [ ] Add debug logs for enqueue and resolve
+
+### Done when
+
+- [ ] damage can be queued
+- [ ] block can be queued
+- [ ] queue resolves in deterministic order
+- [ ] queue continues safely after fizzles
+- [ ] resolution never bypasses the queue
+
+---
+
+## PHASE 5 — ROUTE CURRENT SIMPLE COMBAT THROUGH ACTIONS
+
+Before full cards are built, convert the current simple test interactions into queue-backed requests.
+
+This is the bridge from prototype to architecture.
+
+### Old path that must die
+
+Current temporary interactions likely do things like:
+- spend energy directly
+- deal damage directly
+- gain block directly
+- enemy directly attacks
+
+All of that must stop.
+
+### Temporary replacement path
+
+For now, use request functions such as:
+- `battle_request_basic_attack`
+- `battle_request_basic_block`
+- `battle_request_end_turn`
+
+These are still temporary.
+They are not the final card system.
+But they let you prove the queue works before cards exist.
+
+### Build tasks
+
+- [ ] Remove direct HP mutation from temporary player input
+- [ ] Remove direct block mutation from temporary player input
+- [ ] Remove direct enemy damage mutation
+- [ ] Validate turn ownership before creating actions
+- [ ] Validate that battle is not locked/resolving
+- [ ] Create damage/block actions from requests
+- [ ] Route those through queue
+
+### Done when
+
+- [ ] the prototype buttons still function as temporary tools
+- [ ] but they no longer directly change game state
+- [ ] all current basic combat effects go through action creation and queue resolution
+
+---
+
+## PHASE 6 — IMPLEMENT ENERGY TO MATCH CARD PLAY RULES
+
+The vault is clear that:
+- a card must fully validate before cost is paid
+- cost is paid before actions are generated
+- cost is evaluated at play time
+
+That means energy handling must be implemented with card play ordering in mind, not as a random direct subtraction.
+
+### Build tasks
+
+- [ ] Add `current_energy`
+- [ ] Add `base_energy`
+- [ ] Reset energy in Start Turn Phase
+- [ ] Implement `can_pay(cost)`
+- [ ] Implement `pay(cost)`
+- [ ] Make payment happen after play validation
+- [ ] Make energy changes visible immediately for subsequent plays
+
+### Important implementation rule
+
+Temporary attack/block request buttons may spend energy for testing, but full card play must use the card play order from the vault:
+1. validate
+2. target
+3. pay cost
+4. remove from hand
+5. generate actions
+6. enqueue
+7. move card to destination
+
+---
+
+## PHASE 7 — IMPLEMENT THE CARD PLAY PIPELINE LITERALLY
+
+The vault already has the sequence.
+Follow it directly.
+
+### Required play order
+
+1. Player selects card from hand
+2. Check card is still in hand
+3. Check card is playable
+4. Resolve targeting requirements
+5. Select target if required
+6. Validate target(s)
+7. Pay cost
+8. Remove card from hand
+9. Generate effects from card data
+10. Generate actions using resolved target data
+11. Enqueue actions
+12. Move card to destination
+
+Do not collapse this into “click card, effect happens.”
+
+### Build tasks
+
+- [ ] Create card definition data
+- [ ] Create card instance/zone data if using separate runtime instances
+- [ ] Make hand the only valid play zone
+- [ ] Implement play attempt function
+- [ ] Implement in-hand check
+- [ ] Implement playability validation
+- [ ] Implement targeting resolution
+- [ ] Implement cost payment timing
+- [ ] Remove card from hand at commit point
+- [ ] Convert card effects to action data
 - [ ] Enqueue actions
-- [ ] Move played card to discard
-- [ ] Refresh hand/UI state after play
+- [ ] Move card to discard or exhaust based on flags
 
-### First Cards To Support
-- [ ] one basic attack card
-- [ ] one basic defend card
-- [ ] optionally one simple utility/status card later
+### Done when
 
-### Done When
-- [ ] hand can be drawn
-- [ ] attack card plays end-to-end
-- [ ] defend card plays end-to-end
-- [ ] card costs are enforced
-- [ ] played cards leave hand correctly
-- [ ] prototype attack/block buttons are no longer required
-
-### Notes
-This is the phase where the real combat loop begins to exist.
+- [ ] one attack card works
+- [ ] one defend card works
+- [ ] card play obeys the exact validation/payment/generation order from the vault
 
 ---
 
-## PHASE 5 — ENEMY PARITY
+## PHASE 8 — IMPLEMENT HAND / DRAW / DISCARD TO MATCH THE NOTES
 
-### Objective
-Make enemies use the same formal gameplay path as the player.
+These notes are already detailed enough to guide implementation.
 
-### What This Phase Must Establish
-Enemy turns should generate formal actions, not apply direct effects.
+### Hand requirements from notes
 
-The difference between player and enemy should be:
-- who chooses the behavior
-not
-- how the result resolves
+- cards exist in exactly one zone
+- hand has ordered collection
+- hand order controls display order
+- draw adds if not full
+- if full, drawn cards go to discard
+- end turn moves or exhausts cards individually
 
-### Core Questions This Phase Answers
-- how does enemy intent become actionable?
-- how are enemy attacks generated?
-- does the enemy use the same action queue?
-- are enemy actions subject to the same post-resolution rules?
+### Build tasks
 
-### Build Tasks
-- [ ] Define enemy intent data
-- [ ] Define intent selection/update path
-- [ ] Display intent before execution
-- [ ] On enemy turn:
-  - [ ] read intent
-  - [ ] generate corresponding actions
-  - [ ] enqueue those actions
-- [ ] Remove direct enemy damage logic
-- [ ] Make enemy behavior follow same resolution rules as player
-- [ ] Ensure death/battle over checks run the same way
+- [ ] Represent zones explicitly
+- [ ] Ensure one card is in one zone only
+- [ ] Implement draw into hand
+- [ ] Implement hand max size
+- [ ] Implement overflow-to-discard rule
+- [ ] Implement remove-from-hand on commit
+- [ ] Preserve hand order unless explicitly changed
+- [ ] Implement end-turn hand cleanup per card
 
-### Done When
-- [ ] enemy intent is visible
-- [ ] enemy turn generates actions
-- [ ] enemy actions resolve through same queue as player actions
-- [ ] enemy no longer directly changes player state
+### End-turn cleanup rule from notes
 
-### Notes
-This phase is what gives the combat system symmetry.
+For each card in hand:
+- retain stays
+- ethereal exhausts
+- otherwise move to discard pile
+
+That should be implemented exactly, not as one bulk “clear hand” shortcut.
 
 ---
 
-## PHASE 6 — PERSISTENT COMBAT RULES
+## PHASE 9 — IMPLEMENT TARGETING AS PRE-ACTION RESOLUTION
 
-### Objective
-Add systems that modify combat behavior across turns and actions.
+The targeting note is already strong.
+Use it directly.
 
-### What This Phase Must Establish
-Statuses and combat modifiers should plug into the action system, not bypass it.
+### Required targeting rules
 
-### Core Questions This Phase Answers
-- where are statuses stored?
-- when do statuses tick?
-- how do modifiers alter action resolution?
-- what happens at start/end of turn?
-- how do temporary combat rules persist across multiple turns?
+- targeting resolves before action creation
+- actions receive target or targets
+- actions do not perform target selection
+- multi-target effects create multiple actions
+- invalid targets at resolution time fizzle independently
 
-### Build Tasks
-- [ ] Define status representation
-- [ ] Add status storage to actors
-- [ ] Add start-of-turn hooks
-- [ ] Add end-of-turn hooks
-- [ ] Add modifier logic for actions:
-  - [ ] strength-like
-  - [ ] weak-like
-  - [ ] vulnerable-like
-  - [ ] dexterity-like if relevant
-- [ ] Decide whether modifiers apply:
-  - [ ] before enqueue
-  - [ ] during resolution
-  - [ ] or in a preprocess step
-- [ ] Add status decrement / expiration rules
-- [ ] Add status display/update
+### Build tasks
 
-### Rules
-- [ ] statuses should modify formal resolution
-- [ ] statuses should not become random side paths for direct mutation
-- [ ] start/end turn effects should belong to the battle flow, not scattered UI or actor scripts
+- [ ] Implement targeting enum support:
+  - [ ] none
+  - [ ] self
+  - [ ] player
+  - [ ] single_enemy
+  - [ ] all_enemies
+  - [ ] all_entities
+- [ ] Create targeting resolve helper
+- [ ] Return one of:
+  - [ ] target
+  - [ ] targets
+  - [ ] no target
+- [ ] Make card play and enemy intents use same targeting resolution path
+- [ ] Revalidate targets during action resolution and fizzle if necessary
 
-### Done When
-- [ ] statuses persist across turns
-- [ ] statuses can affect actions predictably
-- [ ] start/end turn effects resolve correctly
-- [ ] no rule requires breaking the action pipeline
+### Done when
 
-### Notes
-Do not add lots of statuses immediately.
-Add only enough to prove the architecture works.
+- [ ] a single-target attack card works
+- [ ] a self-target block card works
+- [ ] an all-enemies attack can generate one action per enemy
 
 ---
 
-## PHASE 7 — COMBAT COMPLETION
+## PHASE 10 — IMPLEMENT ENEMY PHASE TO MATCH THE NOTE
 
-### Objective
-Finish the single-encounter loop so combat can cleanly begin, run, and end.
+The enemy phase note already defines the order.
 
-### What This Phase Must Establish
-A fight can fully complete and exit without leftover state corruption.
+### Required enemy phase order
 
-### Core Questions This Phase Answers
-- what exactly ends combat?
-- when is input locked?
-- when does cleanup occur?
-- what state survives after battle?
-- how do you leave combat safely?
+1. Resolve enemies left to right
+2. Skip dead or unable enemies
+3. Trigger enemy start-of-turn effects
+4. Execute current intent
+5. Resolve via action queue
+6. Determine next intent
+7. Advance to End Round Phase
 
-### Build Tasks
-- [ ] Implement victory detection
-- [ ] Implement defeat detection
-- [ ] Lock combat input once battle outcome is final
-- [ ] Clear or finalize action queue
-- [ ] Run death / battle-end animations if desired
-- [ ] Create cleanup path
-- [ ] Remove/reset temporary combat state
-- [ ] Add exit/transition path out of combat
+### Important implementation rule
 
-### Done When
-- [ ] combat starts cleanly
-- [ ] combat ends cleanly
-- [ ] no leftover state bleeds into the next encounter
-- [ ] battle can safely transition to post-combat flow
+Enemy intent should already exist before the phase begins.
+Enemy action uses current intent.
+Next intent is chosen after acting.
 
----
+That means enemy state should likely store:
+- `current_intent`
+- `next_intent`
 
-## PHASE 8 — POST-REWRITE EXPANSION
+### Build tasks
 
-### Objective
-Only after the combat rewrite is stable, begin scaling the actual game.
+- [ ] Add enemy list ordering
+- [ ] Add current/next intent storage
+- [ ] Execute current intent through action generation only
+- [ ] Do not allow direct enemy damage
+- [ ] Choose next intent after acting
+- [ ] Update UI after next intent selection
 
-### Add Later
-- [ ] more cards
-- [ ] more enemy patterns
-- [ ] more statuses
-- [ ] rewards
-- [ ] deck growth
-- [ ] relic systems
-- [ ] map flow
-- [ ] events
-- [ ] shop/rest structure
-- [ ] run persistence
+### Done when
 
-### Rule
-Do not treat content volume as progress before architecture is stable.
+- [ ] enemy acts through the queue
+- [ ] enemy order is deterministic
+- [ ] next intent becomes visible after acting
 
 ---
 
-## CURRENT PRIORITY ORDER
+## PHASE 11 — DEFER REACTIONS UNTIL CORE FLOW WORKS
 
-Do these first, in order:
+The notes already include reactions, but there is a note conflict about their queue insertion order.
 
-- [ ] create `obj_battle_controller`
-- [ ] establish clean battle states
-- [ ] move turn ownership into battle controller
-- [ ] create action struct
-- [ ] create action queue
-- [ ] implement DAMAGE action
-- [ ] implement GAIN_BLOCK action
-- [ ] route current attack through queue
-- [ ] route current block through queue
-- [ ] route enemy attack through queue
-- [ ] replace direct mutation paths
-- [ ] only then begin card runtime flow
+Do not implement full reaction complexity until:
+- battle phases work
+- queue works
+- card play works
+- enemy phase works
 
----
+### Temporary rule
 
-## HARD RULES
+For the first working rewrite:
+- allow action resolution without reaction depth
+- or implement only one simple deterministic reaction rule
+- update the notes first if reaction ordering is undecided
 
-These are rewrite constraints, not suggestions.
+### Note conflict to resolve later
 
-- [ ] no direct HP mutation outside action resolution
-- [ ] no direct block mutation outside action resolution
-- [ ] UI is not allowed to own gameplay resolution
-- [ ] battle controller owns battle flow
-- [ ] battle controller owns queue lifecycle
-- [ ] player and enemy must resolve through the same core path
-- [ ] statuses must modify actions, not bypass the system
-- [ ] prototype code may be referenced, but should not dictate final structure
-- [ ] do not add lots of content before the pipeline is stable
+Current note mismatch:
+- `Action Queue.md` suggests append behavior
+- `Action.md` says reactions insert before older pending actions
+
+Pick one later and update the vault before implementing that part deeply.
 
 ---
 
-## MILESTONES
+## PHASE 12 — BATTLE END AND CLEANUP
 
-### Milestone 1 — Clean Shell
-- [ ] one controller owns battle
-- [ ] one place controls turn progression
-- [ ] battle states are explicit
+This must happen after core combat loop works.
 
-### Milestone 2 — Formal Resolution
-- [ ] damage and block go through action queue
-- [ ] death checks happen in formal resolution path
+### Build tasks
 
-### Milestone 3 — Prototype Bridge
-- [ ] old buttons work only as request sources
-- [ ] UI no longer directly mutates gameplay
+- [ ] Detect victory when all enemies are dead
+- [ ] Detect defeat when player is dead
+- [ ] Lock input once outcome is final
+- [ ] Finish or clear queue safely
+- [ ] stop additional phase progression
+- [ ] clean temporary combat state
+- [ ] transition out of combat cleanly
 
-### Milestone 4 — Real Card Loop
-- [ ] draw hand
-- [ ] play card
-- [ ] validate cost
-- [ ] generate actions
-- [ ] resolve
-- [ ] discard
+### Done when
 
-### Milestone 5 — Enemy Parity
-- [ ] enemy intent generates actions
-- [ ] enemy and player share same resolution rules
-
-### Milestone 6 — Stable Combat
-- [ ] statuses work
-- [ ] victory/defeat works
-- [ ] encounter cleanup works
+- [ ] battle can start, loop, and end without leftover state corruption
 
 ---
 
-## PROGRESS
+## Immediate Build Checklist
 
-- [ ] Phase 1 — Battle Shell
-- [ ] Phase 2 — Action Pipeline
-- [ ] Phase 3 — Remove Direct Mutation
-- [ ] Phase 4 — Card Play Loop
-- [ ] Phase 5 — Enemy Parity
-- [ ] Phase 6 — Persistent Combat Rules
-- [ ] Phase 7 — Combat Completion
-- [ ] Phase 8 — Post-Rewrite Expansion
+This is the actual order to start coding from the current project state.
 
-Example completed task:
-- [x] ~~Create obj_battle_controller~~
+- [ ] Create `obj_battle_controller`
+- [ ] Implement note-accurate phase enum
+- [ ] Implement Start Turn → Draw → Player → End Turn → Enemy → End Round flow
+- [ ] Create action data struct
+- [ ] Create action queue
+- [ ] Implement damage action
+- [ ] Implement block action
+- [ ] Route temporary player attack through queue
+- [ ] Route temporary player block through queue
+- [ ] Route enemy attack through queue
+- [ ] Implement energy reset in Start Turn
+- [ ] Implement hand / draw / discard basics
+- [ ] Implement card play validation pipeline
+- [ ] Replace temporary attack/block controls with real cards
+- [ ] Implement enemy current_intent / next_intent flow
+- [ ] Add battle end / cleanup
+- [ ] Only then begin statuses / reactions / modifiers
 
-Use `- [x]` for completed tasks.
-Use `~~text~~` if you also want strikethrough.
+---
+
+## Known Note Issues To Resolve Before Or During Rewrite
+
+These are vault-level issues, not necessarily project bugs.
+
+### Issue 1 — Reaction queue ordering conflict
+
+`[[Action Queue]]` and `[[Action]]` currently describe reaction insertion differently.
+
+This needs a single rule before reaction-heavy systems are built.
+
+### Issue 2 — Draw as queue action vs draw phase flow
+
+The notes say draw is an action type, but the round structure also has a dedicated draw phase.
+That is workable, but implementation should be explicit:
+the Draw Phase should probably enqueue draw actions rather than bypassing the queue.
+
+### Issue 3 — End turn destination wording
+
+The notes distinguish “move to discard” from “discarded.”
+That is fine, but implementation should be consistent and use one vocabulary for:
+- discard as an action/effect
+- end-turn move-to-discard as zone cleanup
+
+### Issue 4 — Missing explicit combat system ownership note
+
+The vault has strong component notes, but the implementation rewrite should treat the battle controller as the owner of:
+- phase progression
+- queue lifecycle
+- combat actor registry
+- battle end checks
+- phase transitions
+
+If that is not already written in `[[Combat System]]`, it should be added.
+
+---
+
+## Hard Implementation Rules
+
+- [ ] No gameplay state changes outside the action system, except phase bookkeeping and pure setup/cleanup
+- [ ] Cards do not directly resolve gameplay
+- [ ] Player phase does not resolve gameplay
+- [ ] Enemy phase does not resolve gameplay
+- [ ] Targeting resolves before action creation
+- [ ] Actions revalidate at resolution and may fizzle
+- [ ] One combat owner controls the loop
+- [ ] Prototype direct-mutation paths should be removed, not preserved
+
+---
+
+## Progress
+
+- [ ] Battle controller exists
+- [ ] Full round structure exists
+- [ ] Action queue works
+- [ ] Basic damage/block actions work
+- [ ] Temporary test combat routes through queue
+- [ ] Energy system matches card-play order
+- [ ] Hand / draw / discard works
+- [ ] Card play pipeline works
+- [ ] Enemy phase works through queue
+- [ ] Battle end / cleanup works
+- [ ] Statuses / reactions / modifiers begin
