@@ -311,14 +311,14 @@ The project should follow it directly.
 
 ### Build tasks
 
-- [ ] Create explicit phase handlers for each note-defined phase
+- [x] Create explicit phase handlers for each note-defined phase
 - [ ] Do not skip Draw / End Turn / End Round as “implied”
 - [ ] Make each phase do only its own responsibilities
-- [ ] Keep transition logic in controller, not scattered in actors
+- [x] Keep transition logic in controller, not scattered in actors
 
 ### Done when
 
-- [ ] phase order matches the vault
+- [x] phase order matches the vault
 - [ ] each phase has one clear purpose
 - [ ] the controller can step through a whole round without prototype shortcuts
 

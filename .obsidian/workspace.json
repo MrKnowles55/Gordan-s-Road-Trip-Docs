@@ -78,8 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "8e16b8977c046501",
@@ -187,13 +186,13 @@
   },
   "active": "a52f58122f677ff0",
   "lastOpenFiles": [
+    "Systems/Action.md",
+    "Implementation/Roadmap.md",
     "Fun.zip",
     "Systems/Card Play Pipeline.md",
-    "Implementation/Roadmap.md",
     "Implementation",
     "Systems/Card.md",
     "Systems/Action Queue.md",
-    "Systems/Action.md",
     "conflict-files-obsidian-git.md",
     "Hand.md",
     "Systems/Targeting.md",
