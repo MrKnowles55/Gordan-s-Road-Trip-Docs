@@ -4,21 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "7df8a6e497f8bf7f",
+        "id": "f854696751072319",
         "type": "tabs",
         "children": [
           {
-            "id": "104695eb91e5d3a1",
+            "id": "a52f58122f677ff0",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "conflict-files-obsidian-git.md",
+                "file": "Systems/Card Play Pipeline.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "conflict-files-obsidian-git"
+              "title": "Card Play Pipeline"
             }
           }
         ]
@@ -184,8 +184,12 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "104695eb91e5d3a1",
+  "active": "a52f58122f677ff0",
   "lastOpenFiles": [
+    "Systems/Card Play Pipeline.md",
+    "Systems/Card.md",
+    "Systems/Action Queue.md",
+    "Systems/Action.md",
     "conflict-files-obsidian-git.md",
     "Hand.md",
     "Systems/Targeting.md",
@@ -194,13 +198,9 @@
     "Systems/Energy System.md",
     "Systems/Discard Pile.md",
     "Systems/Deck.md",
-    "Systems/Card.md",
-    "Systems/Card Play Pipeline.md",
     "Root.md",
     "Systems/Start Turn Phase.md",
     "Systems/Combat System.md",
-    "Systems/Action Queue.md",
-    "Systems/Action.md",
     "Systems/Player Phase.md",
     "Systems/End Turn Phase.md",
     "Systems/Enemy Phase.md",
