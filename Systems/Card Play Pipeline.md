@@ -21,7 +21,7 @@
 12. Move card to destination
 	- default: [[Discard Pile]]
 	- if exhaust: exhaust
-t
+
 ## Validation
 
 A card play is valid only if
