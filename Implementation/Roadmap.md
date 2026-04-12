@@ -312,14 +312,14 @@ The project should follow it directly.
 ### Build tasks
 
 - [x] Create explicit phase handlers for each note-defined phase
-- [ ] Do not skip Draw / End Turn / End Round as “implied”
+- [x] Do not skip Draw / End Turn / End Round as “implied”
 - [ ] Make each phase do only its own responsibilities
 - [x] Keep transition logic in controller, not scattered in actors
 
 ### Done when
 
 - [x] phase order matches the vault
-- [ ] each phase has one clear purpose
+- [x] each phase has one clear purpose
 - [ ] the controller can step through a whole round without prototype shortcuts
 
 ---
@@ -358,9 +358,9 @@ Prove the core path first.
 
 - [x] Create action constructor/helper
 - [ ] Validate required fields per action type
-- [ ] Define type rules
+- [x] Define type rules
 - [x] Create action debug print/log
-- [ ] Ensure action data is deterministic and serializable enough for debugging
+- [x] Ensure action data is deterministic and serializable enough for debugging
 
 ### Done when
 
@@ -402,10 +402,10 @@ For first-pass rewrite:
 
 ### Build tasks
 
-- [ ] Create queue storage
-- [ ] Add enqueue
-- [ ] Add dequeue
-- [ ] Add `process_next`
+- [x] Create queue storage
+- [x] Add enqueue
+- [x] Add dequeue
+- [x] Add `process_next`
 - [ ] Add `process_all`
 - [ ] Add safe clear/reset
 - [ ] Add queue-owned resolving flag
@@ -415,8 +415,8 @@ For first-pass rewrite:
 ### Done when
 
 - [ ] damage can be queued
-- [ ] block can be queued
-- [ ] queue resolves in deterministic order
+- [x] block can be queued
+- [x] queue resolves in deterministic order
 - [ ] queue continues safely after fizzles
 - [ ] resolution never bypasses the queue
 
