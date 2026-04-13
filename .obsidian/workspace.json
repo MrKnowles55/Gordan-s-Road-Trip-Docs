@@ -11,10 +11,14 @@
             "id": "104695eb91e5d3a1",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Graph view"
+              "type": "markdown",
+              "state": {
+                "file": "Systems/Enemy AI.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Enemy AI"
             }
           }
         ]
@@ -180,8 +184,15 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "dce0b78e13986db4",
+  "active": "104695eb91e5d3a1",
   "lastOpenFiles": [
+    "Systems/Combat Controller.md",
+    "Systems/Enemy AI.md",
+    "Enemy Intent.md",
+    "Enemy System.md",
+    "Systems/Combat System.md",
+    "Root.md",
+    "Systems/Energy System.md",
     "Systems/Status.md",
     "Systems/Status Effects.md",
     "Implementation/Roadmap.md",
@@ -194,25 +205,20 @@
     "Systems/Round Structure.md",
     "Systems/Player Phase.md",
     "Systems/Hand.md",
-    "Systems/Energy System.md",
     "Systems/Enemy Phase.md",
     "Systems/End Turn Phase.md",
     "Systems/End Round Phase.md",
     "Systems/Draw Phase.md",
     "Systems/Discard Pile.md",
     "Systems/Deck.md",
-    "Systems/Combat System.md",
     "Systems/Card Play Pipeline.md",
     "Systems/Card.md",
     "Systems/Action Queue.md",
-    "Systems/Action.md",
-    "Root.md",
     "Testing",
     "Mechanics",
     "Runs",
     "Enemies",
     "Cards",
-    "System.md",
     "Untitled.base",
     "Systems"
   ]
