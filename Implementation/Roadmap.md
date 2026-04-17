@@ -248,7 +248,7 @@ Do not collapse all of this into generic “player turn / enemy turn” if the v
 - [x] Add debug display for current phase
 - [x] Add phase transition function
 - [x] Add battle init function
-- [ ] Add battle end check function
+- [x] Add battle end check function
 - [ ] Make the room use the new controller as combat owner
 
 ### Done when
@@ -257,7 +257,7 @@ Do not collapse all of this into generic “player turn / enemy turn” if the v
 - [x] current phase is always known
 - [x] battle starts from explicit init
 - [x] phase progression is centralized
-- [ ] victory / defeat states exist even if still simple
+- [x] victory / defeat states exist even if still simple
 
 ### Important rule
 
@@ -313,14 +313,14 @@ The project should follow it directly.
 
 - [x] Create explicit phase handlers for each note-defined phase
 - [x] Do not skip Draw / End Turn / End Round as “implied”
-- [ ] Make each phase do only its own responsibilities
+- [x] Make each phase do only its own responsibilities
 - [x] Keep transition logic in controller, not scattered in actors
 
 ### Done when
 
 - [x] phase order matches the vault
 - [x] each phase has one clear purpose
-- [ ] the controller can step through a whole round without prototype shortcuts
+- [x] the controller can step through a whole round without prototype shortcuts
 
 ---
 
@@ -364,7 +364,7 @@ Prove the core path first.
 
 ### Done when
 
-- [ ] actions can be created from player and enemy systems
+- [x] actions can be created from player and enemy systems
 - [ ] action data is consistent
 - [ ] invalid action definitions are rejected safely
 
@@ -414,7 +414,7 @@ For first-pass rewrite:
 
 ### Done when
 
-- [ ] damage can be queued
+- [x] damage can be queued
 - [x] block can be queued
 - [x] queue resolves in deterministic order
 - [ ] queue continues safely after fizzles
@@ -451,19 +451,19 @@ But they let you prove the queue works before cards exist.
 
 ### Build tasks
 
-- [ ] Remove direct HP mutation from temporary player input
-- [ ] Remove direct block mutation from temporary player input
-- [ ] Remove direct enemy damage mutation
+- [x] Remove direct HP mutation from temporary player input
+- [x] Remove direct block mutation from temporary player input
+- [x] Remove direct enemy damage mutation
 - [ ] Validate turn ownership before creating actions
 - [ ] Validate that battle is not locked/resolving
-- [ ] Create damage/block actions from requests
-- [ ] Route those through queue
+- [x] Create damage/block actions from requests
+- [x] Route those through queue
 
 ### Done when
 
-- [ ] the prototype buttons still function as temporary tools
-- [ ] but they no longer directly change game state
-- [ ] all current basic combat effects go through action creation and queue resolution
+- [x] the prototype buttons still function as temporary tools
+- [x] but they no longer directly change game state
+- [x] all current basic combat effects go through action creation and queue resolution
 
 ---
 
@@ -478,9 +478,9 @@ That means energy handling must be implemented with card play ordering in mind, 
 
 ### Build tasks
 
-- [ ] Add `current_energy`
-- [ ] Add `base_energy`
-- [ ] Reset energy in Start Turn Phase
+- [x] Add `current_energy`
+- [x] Add `base_energy`
+- [x] Reset energy in Start Turn Phase
 - [ ] Implement `can_pay(cost)`
 - [ ] Implement `pay(cost)`
 - [ ] Make payment happen after play validation
