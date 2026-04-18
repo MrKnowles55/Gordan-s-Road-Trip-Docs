@@ -523,8 +523,8 @@ Do not collapse this into “click card, effect happens.”
 
 ### Build tasks
 
-- [ ] Create card definition data
-- [ ] Create card instance/zone data if using separate runtime instances
+- [x] Create card definition data
+- [x] Create card instance/zone data if using separate runtime instances
 - [ ] Make hand the only valid play zone
 - [ ] Implement play attempt function
 - [ ] Implement in-hand check
