@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Cards/Defend Design Space.md",
+                "file": "Cards/Design Space - Dog Theme.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Defend Design Space"
+              "title": "Design Space - Dog Theme"
             }
           }
         ]
@@ -186,8 +186,9 @@
   },
   "active": "104695eb91e5d3a1",
   "lastOpenFiles": [
-    "Cards/Strike Design Space.md",
     "Cards/Defend Design Space.md",
+    "Cards/Design Space - Dog Theme.md",
+    "Cards/Strike Design Space.md",
     "Root.md",
     "Systems/Enemy AI.md",
     "Systems/Combat Controller.md",
@@ -213,7 +214,6 @@
     "Systems/Draw Phase.md",
     "Systems/Discard Pile.md",
     "Systems/Deck.md",
-    "Systems/Card Play Pipeline.md",
     "Testing",
     "Mechanics",
     "Runs",
