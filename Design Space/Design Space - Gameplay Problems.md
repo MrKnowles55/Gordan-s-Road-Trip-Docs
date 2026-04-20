@@ -33,7 +33,7 @@
 - Enemy deals too much damage in long fights
 
 ## Synergy
-- Cards dont work well together
+- Cards don't work well together
 - Have a combo but cannot enable it
 - Need prerequisites conditions to fight optimally
 - Need setup cards to enable payoff cards
@@ -61,4 +61,17 @@
 - Need more immediate effects
 - Effects/Statuses expire too quickly
 - Effects/Statuses accumulate too slowly
-- 
+- Need to order effects more optimally but turn structure is hardcoded
+
+## Risk Reward
+- Deck is consistent but not effective
+- Deck is inconsistent, sometimes effective sometimes not
+- Drawbacks from risky cards are too expensive
+- Gameplay is too predictable 
+
+## Resource Management
+- Overkilling enemies (too much damage)
+- Over-blocking enemies (too much block)
+- Leftover energy too often
+- Too many cards leftover in hand
+- Healing more health than max hp
