@@ -38,3 +38,27 @@
 - Need prerequisites conditions to fight optimally
 - Need setup cards to enable payoff cards
 
+## Deck
+- Deck has too many cards
+- Deck has too few cards
+- Deck has many bad cards
+- Need to draw specific cards at specific time
+- Need to cast specific card multiple times
+
+## Status
+- Enemy keeps getting stronger
+- Status effects disable my cards
+- Cant take advantage of status effects on enemy
+- Cannot apply status to enemy
+
+# Targeting
+- Can kill 1 enemy easily, cannot deal with many small enemies
+- Can deal with many small enemies but cannot deal with 1 large enemy
+- Need to target 1 specific enemy that buffs other enemies
+
+## Timing
+- Need to delay damage/block/effect for better timing
+- Need more immediate effects
+- Effects/Statuses expire too quickly
+- Effects/Statuses accumulate too slowly
+- 
