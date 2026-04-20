@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Cards/Design Space - Dog Theme.md",
+                "file": "Design Space/Strike Design Space.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Design Space - Dog Theme"
+              "title": "Strike Design Space"
             }
           }
         ]
@@ -184,11 +184,12 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "104695eb91e5d3a1",
+  "active": "dce0b78e13986db4",
   "lastOpenFiles": [
-    "Cards/Defend Design Space.md",
-    "Cards/Design Space - Dog Theme.md",
-    "Cards/Strike Design Space.md",
+    "Design Space",
+    "Design Space/Design Space - Dog Theme.md",
+    "Design Space/Defend Design Space.md",
+    "Design Space/Strike Design Space.md",
     "Root.md",
     "Systems/Enemy AI.md",
     "Systems/Combat Controller.md",
@@ -213,7 +214,6 @@
     "Systems/End Round Phase.md",
     "Systems/Draw Phase.md",
     "Systems/Discard Pile.md",
-    "Systems/Deck.md",
     "Testing",
     "Mechanics",
     "Runs",
