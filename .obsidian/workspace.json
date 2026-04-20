@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Root.md",
+                "file": "Cards/Damage.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Root"
+              "title": "Damage"
             }
           }
         ]
@@ -186,12 +186,13 @@
   },
   "active": "104695eb91e5d3a1",
   "lastOpenFiles": [
+    "Root.md",
+    "Cards/Damage.md",
     "Systems/Enemy AI.md",
     "Systems/Combat Controller.md",
     "Systems/Enemy Intent.md",
     "Systems/Enemy System.md",
     "Systems/Combat System.md",
-    "Root.md",
     "Systems/Energy System.md",
     "Systems/Status.md",
     "Systems/Status Effects.md",
@@ -213,7 +214,6 @@
     "Systems/Deck.md",
     "Systems/Card Play Pipeline.md",
     "Systems/Card.md",
-    "Systems/Action Queue.md",
     "Testing",
     "Mechanics",
     "Runs",
