@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Cards/Damage.md",
+                "file": "Cards/Strike Design Space.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Damage"
+              "title": "Strike Design Space"
             }
           }
         ]
@@ -187,7 +187,7 @@
   "active": "104695eb91e5d3a1",
   "lastOpenFiles": [
     "Root.md",
-    "Cards/Damage.md",
+    "Cards/Strike Design Space.md",
     "Systems/Enemy AI.md",
     "Systems/Combat Controller.md",
     "Systems/Enemy Intent.md",
