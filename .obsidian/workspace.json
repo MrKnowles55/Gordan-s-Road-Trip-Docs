@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Cards/Strike Design Space.md",
+                "file": "Cards/Defend Design Space.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Strike Design Space"
+              "title": "Defend Design Space"
             }
           }
         ]
@@ -186,8 +186,9 @@
   },
   "active": "104695eb91e5d3a1",
   "lastOpenFiles": [
-    "Root.md",
     "Cards/Strike Design Space.md",
+    "Cards/Defend Design Space.md",
+    "Root.md",
     "Systems/Enemy AI.md",
     "Systems/Combat Controller.md",
     "Systems/Enemy Intent.md",
@@ -213,7 +214,6 @@
     "Systems/Discard Pile.md",
     "Systems/Deck.md",
     "Systems/Card Play Pipeline.md",
-    "Systems/Card.md",
     "Testing",
     "Mechanics",
     "Runs",
