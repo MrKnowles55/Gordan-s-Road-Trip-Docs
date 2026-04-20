@@ -13,14 +13,23 @@ Generate card ideas by modifying aspects of the "Defend" card
 - Cost 3:
 	- Gain 20 Block.
 ## Target
-
+- Self
+- Enemy?
+- All
 ## Timing
+- Now
+- Next Turn
+- End of Turn
 
 ## Conditional
-
+- If have status
 ## Scaling
+- Gain block X times
+- Gain X per card in hand
+- Gain X per enemy
 
 ## Multi Step Effects
+- Gain X block then if total less than Y, Gain X more
 
 ## Resource Interaction
 
