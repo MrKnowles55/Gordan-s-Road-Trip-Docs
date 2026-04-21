@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Design Space/Design Space - Dog Theme.md",
+                "file": "Design Space/Enemy Design Philosophy.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Design Space - Dog Theme"
+              "title": "Enemy Design Philosophy"
             }
           }
         ]
@@ -184,10 +184,11 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "dce0b78e13986db4",
+  "active": "104695eb91e5d3a1",
   "lastOpenFiles": [
-    "Design Space/Defend Design Space.md",
     "Design Space/Design Space - Dog Theme.md",
+    "Design Space/Enemy Design Philosophy.md",
+    "Design Space/Defend Design Space.md",
     "Design Space/Design Space - Gameplay Problems.md",
     "Design Space/General Design Philosophy.md",
     "Design Space/Strike Design Space.md",
@@ -214,7 +215,6 @@
     "Systems/Enemy Phase.md",
     "Systems/End Turn Phase.md",
     "Systems/End Round Phase.md",
-    "Systems/Draw Phase.md",
     "Testing",
     "Mechanics",
     "Runs",
