@@ -37,3 +37,23 @@ Core statement such as
 - Trading - Pokémon, Catan
 - Race - Speed running, Chutes and Ladders
 
+## Terminology
+
+- Feature List
+	- List of key features or selling points of a game (think back of the box text)
+- Brainstorming
+	- just....brainstorming
+- Prototype
+	- playable early version of the game or part of the game.
+- Balance
+	- Describes how well the game is designed in terms of difficulty and challenge
+- Mechanics
+	- Rules of a game.
+- Dynamics
+	- dynamics result when rules are put in motion. these are extrinsic behaviors developed around the rules.
+- System
+	- Collection of game mechanics responsible for producing a given outcome within a larger game (combat, character creation, maps)
+- Avatar
+	- Direct representation of a player in a game.
+- Playtesting
+	- Systemic testing of gameplay, systems, balance and interface.
