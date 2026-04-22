@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Design Space/Enemy Design Philosophy.md",
+                "file": "Design Space/Reading notes/Challenges for Game Designers.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Enemy Design Philosophy"
+              "title": "Challenges for Game Designers"
             }
           }
         ]
@@ -186,8 +186,10 @@
   },
   "active": "104695eb91e5d3a1",
   "lastOpenFiles": [
-    "Design Space/Design Space - Dog Theme.md",
     "Design Space/Enemy Design Philosophy.md",
+    "Design Space/Reading notes/Challenges for Game Designers.md",
+    "Design Space/Reading notes",
+    "Design Space/Design Space - Dog Theme.md",
     "Design Space/Defend Design Space.md",
     "Design Space/Design Space - Gameplay Problems.md",
     "Design Space/General Design Philosophy.md",
@@ -214,13 +216,11 @@
     "Systems/Hand.md",
     "Systems/Enemy Phase.md",
     "Systems/End Turn Phase.md",
-    "Systems/End Round Phase.md",
     "Testing",
     "Mechanics",
     "Runs",
     "Enemies",
     "Cards",
-    "Untitled.base",
-    "Systems"
+    "Untitled.base"
   ]
 }
