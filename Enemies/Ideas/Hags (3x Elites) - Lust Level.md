@@ -1,6 +1,14 @@
 A fairy witch born of nightmares, malevolent and shapeshifting.
 Derived possibly from sleep paralysis demon
 
+## 3 Hags
+#### Sleep Paralysis Demon Hag
+- Crushing, weighing, status effect heavy, reduced capacity
+#### Cat Lady Summoner Hag
+- Summons cats to her aid  and acts unpredictably
+#### Obedience Trainer Dominatrix Hag
+- Prevents specific actions, reduces capabilities, lack of control
+
 ## Themes
 Nightmares
 Sleep
