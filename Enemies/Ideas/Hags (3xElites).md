@@ -15,4 +15,7 @@ Puts player to sleep / nightmare
 Horror themed stuff - no movement, then sudden movement (Burst damage)
 Paralyze player (prevent actions, reduce energy, stop attacks)
 Crushing or weighted (stacks of effects, damage scaling)
+Forced actions (play first card drawn each turn)
+Boss Hides inside one of the summoned cats (cup in ball type game)
+Cannot kill the hag but gets "Wake Up" status cards that need to be cast to wake up
 
