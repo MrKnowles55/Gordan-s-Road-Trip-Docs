@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Design Space/Design Space - Dog Theme.md",
+                "file": "Enemies/Ideas/Crazy Cat Lady (Hag).md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Design Space - Dog Theme"
+              "title": "Crazy Cat Lady (Hag)"
             }
           }
         ]
@@ -186,10 +186,12 @@
   },
   "active": "104695eb91e5d3a1",
   "lastOpenFiles": [
+    "Design Space/Design Space - Dog Theme.md",
+    "Enemies/Ideas/Crazy Cat Lady (Hag).md",
+    "Enemies/Ideas",
     "Design Space/Reading notes/Challenges for Game Designers.md",
     "Design Space/Enemy Design Philosophy.md",
     "Design Space/Reading notes",
-    "Design Space/Design Space - Dog Theme.md",
     "Design Space/Defend Design Space.md",
     "Design Space/Design Space - Gameplay Problems.md",
     "Design Space/General Design Philosophy.md",
@@ -215,12 +217,10 @@
     "Systems/Player Phase.md",
     "Systems/Hand.md",
     "Systems/Enemy Phase.md",
-    "Systems/End Turn Phase.md",
     "Testing",
     "Mechanics",
     "Runs",
     "Enemies",
-    "Cards",
-    "Untitled.base"
+    "Cards"
   ]
 }
