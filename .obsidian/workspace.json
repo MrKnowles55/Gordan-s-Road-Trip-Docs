@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Enemies/Ideas/Gluttony Themes.md",
+                "file": "Design Space/Design Space - NPCs.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Gluttony Themes"
+              "title": "Design Space - NPCs"
             }
           }
         ]
@@ -186,8 +186,9 @@
   },
   "active": "104695eb91e5d3a1",
   "lastOpenFiles": [
-    "Enemies/Ideas/Dirty Pile of Laundry - Lust Level.md",
     "Enemies/Ideas/Gluttony Themes.md",
+    "Design Space/Design Space - NPCs.md",
+    "Enemies/Ideas/Dirty Pile of Laundry - Lust Level.md",
     "Enemies/Ideas/Hags (3x Elites) - Lust Level.md",
     "Design Space/Design Space - Dog Theme.md",
     "Enemies/Ideas",
@@ -216,7 +217,6 @@
     "Fun.zip",
     "Systems/Start Turn Phase.md",
     "Systems/Round Structure.md",
-    "Systems/Player Phase.md",
     "Testing",
     "Mechanics",
     "Runs",
