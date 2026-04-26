@@ -1,0 +1,181 @@
+
+## Play / Games
+- Fetch
+- Tug of War
+- Agility
+- Search and Rescue
+- Scent Tracking
+- Tricks
+- Shake
+- Sit
+- Roll Over
+- Beer snow dog thing
+- Play Dead
+- Touch (Targeting/Indicating)
+- Point (Pointers)
+- Crawl
+- Put Away Toys
+- Leg Weave
+- Drug Sniffing
+- Emotional support dock
+- Medical detection
+- Guide Dogs
+- Guard Dogs
+- Herding
+- Retrieving
+- Sled Dogs
+- Frisbee
+- Truffle Dogs
+- "Ratting" Dogs (Pest Control)
+- Bird Dogs
+
+## Dog Specific Actions
+- Pant
+- Dig
+- Bury Bones
+- Marking
+- Howl
+- Bark
+- Bite
+- Itch
+- Yawn
+- Snarl
+- Chew
+- Drool
+- Chatter
+- Whine
+- Whimper
+- Yelp
+- Tail Tuck
+- Raise Hackles
+- Stretch
+- Freeze
+- Play Bow
+- Zoomies
+- Circle lie down
+- Pounce
+- Track
+- Full body shake (wet)
+- Nuzzle
+- Paw at
+- Lean Against
+- Get in the Way (Moxie!)
+- Mount
+- Shadow (follow)
+- Guard
+- Groom
+- Eat Grass
+- Puke
+- Roll in smelly things
+- Shedding
+- Eat garbage
+- Territory/Resource guarding
+- Confused Head tilt
+- Sneeze
+- Carry object
+- Beg
+- Sniff
+- Shake toy (kill)
+
+## Objects
+- Food Bowl
+- Water Bowl
+- Collar
+- Leash
+- Poo Bag
+- Treats
+- Dog Tag
+- Muzzle
+- Harness
+- Crate
+- Bed
+- Playpen
+- Kennel
+- Chew Toys
+- Kong
+- Ball
+- Puzzle treat toy
+- Squeaky Toy
+- Rope
+- Brush
+- Tick Treatment
+- Booties
+- Clicker
+- Whistle
+- Bone
+- Fire Hydrant
+- Doghouse
+- Mailman
+
+## Ailments
+- Fleas
+- Burrs
+- Ticks
+- Bee sting
+- Sore Paw
+- Broken Leg
+- Mange
+- Matting
+- Hot Spots
+- Long Nails
+- Porcupine quills
+- Ear infection
+- Eat something bad (bone shard)
+- Watery Eyes
+- Excessive Licking
+- Separation Anxiety
+- Scooting
+- Declawed
+
+## Dog Parts
+- Eyes
+- Snout
+- Nose
+- Tail
+- Paws
+- Belly
+- Fur
+- Ears
+- Skin Folds
+- Tongue
+- Whiskers
+- Jowls
+- Teeth
+- Jaw
+- Scruff
+- Claws
+- Undercoat
+
+## Stereotypes
+- Dalmatian -> Firefighter
+- German Shepherd -> Police
+- Golden Retriever -> Family Dog
+- Saint Bernard -> Mountain Rescue
+- Husky -> sled pulling
+- Chihuahua -> small but aggressive
+- Bulldog -> stubborn, tough
+- Beagle -> hunting
+- Poodle -> Fancy
+- Basset -> fat and stubborn
+
+## Signals
+- Ear forward
+- Ear back
+- Tail High
+- Tail Tuck
+- Hard Stare
+- Lip Licking
+- Whale Eye
+- Hackles
+- Crouch
+- Belly Up
+- Perched
+- Alert
+- Calm
+- Playful
+- Investigative
+- Aroused
+- Fearful
+- Prey Drive
+
+## TV Tropes
